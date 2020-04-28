@@ -52,7 +52,21 @@ RCT_EXPORT_MODULE()
     for (MKMapItem *mapItem in localSearchResponse.mapItems) {
         NSMutableDictionary *formedLocation = [[NSMutableDictionary alloc] init];
         
+        NSLog(@"Hello, World! \n");
         [formedLocation setValue:mapItem.name forKey:@"name"];
+        [formedLocation setValue:mapItem.url.absoluteURL forKey:@"absoluteUrl"];
+        [formedLocation setValue:mapItem.url.absoluteString forKey:@"absoluteStrUrl"];
+        if (@available(iOS 9.0, *)) {
+            [formedLocation setValue:mapItem.timeZone forKey:@"timeZone"];
+        } else {
+            // Fallback on earlier versions
+        }
+        [formedLocation setObject:[NSNumber numberWithBool:mapItem.isCurrentLocation] forKey:@"isCurrentLocation"];
+        if (@available(iOS 13.0, *)) {
+            [formedLocation setValue:mapItem.pointOfInterestCategory forKey:@"pointOfInterestCategory"];
+        } else {
+            // Fallback on earlier versions
+        }
         [formedLocation setValue:mapItem.placemark.title forKey:@"address"];
         [formedLocation setValue:@{@"latitude": @(mapItem.placemark.coordinate.latitude),
                                    @"longitude": @(mapItem.placemark.coordinate.longitude)} forKey:@"location"];
