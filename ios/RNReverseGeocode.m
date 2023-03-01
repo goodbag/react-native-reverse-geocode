@@ -52,7 +52,18 @@ RCT_EXPORT_MODULE()
     for (MKMapItem *mapItem in localSearchResponse.mapItems) {
         NSMutableDictionary *formedLocation = [[NSMutableDictionary alloc] init];
         
-        NSLog(@"Hello, World! \n");
+        // Get MUID
+        // https://stackoverflow.com/questions/24300138/ios-mkmapitem-how-get-access-to-all-members/24303634#24303634
+        NSValue *place = [mapItem valueForKey:@"place"];
+        NSArray *businessArray = (NSArray *)[place valueForKey:@"business"];
+        
+        NSNumber *uid=nil;
+
+        if (businessArray != nil && businessArray.count >0) {
+             id geobusiness=businessArray[0];
+             uid=[geobusiness valueForKey:@"uID"];
+        }
+        
         [formedLocation setValue:mapItem.name forKey:@"name"];
         [formedLocation setValue:mapItem.url.absoluteURL forKey:@"absoluteUrl"];
         [formedLocation setValue:mapItem.url.absoluteString forKey:@"absoluteStrUrl"];
@@ -68,6 +79,7 @@ RCT_EXPORT_MODULE()
             // Fallback on earlier versions
         }
         [formedLocation setValue:mapItem.placemark.title forKey:@"address"];
+        [formedLocation setValue:[uid stringValue] forKey:@"muid"];
         [formedLocation setValue:@{@"latitude": @(mapItem.placemark.coordinate.latitude),
                                    @"longitude": @(mapItem.placemark.coordinate.longitude)} forKey:@"location"];
         
