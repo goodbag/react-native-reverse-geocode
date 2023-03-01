@@ -60,8 +60,13 @@ RCT_EXPORT_MODULE()
         NSNumber *uid=nil;
 
         if (businessArray != nil && businessArray.count >0) {
-             id geobusiness=businessArray[0];
-             uid=[geobusiness valueForKey:@"uID"];
+            id geobusiness=businessArray[0];
+            @try {
+                uid=[geobusiness valueForKey:@"uID"];
+            }
+            @catch (NSException *exception) {
+             
+            }
         }
         
         [formedLocation setValue:mapItem.name forKey:@"name"];
