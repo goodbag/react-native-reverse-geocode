@@ -18,7 +18,7 @@ buildscript {
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+// apply plugin: 'kotlin-android-extensions' remove bcs of react-native 0.73
 
 android {
     compileSdkVersion safeExtGet('compileSdkVersion', 27)
